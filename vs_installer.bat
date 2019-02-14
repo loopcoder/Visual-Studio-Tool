@@ -57,7 +57,7 @@ goto :BatchGotAdmin
 	set activate_reg_src=InstallDir
 	set activate_reg_key=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\11.0
 	set activate_reg_key_64=HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\11.0
-	
+
 	goto :EOF
 
 :version2013
@@ -102,7 +102,7 @@ goto :BatchGotAdmin
 	REM set help_default_path=
 	set install_help_reg_key=
 	set install_help_reg_key_64=
-	
+
 	:: ACTIVATE
 	set _ACTIVATE=1
 	set activate_key=87DQC-G8CYR-CRPJ4-QX9K8-RFV2B 06181
@@ -110,7 +110,7 @@ goto :BatchGotAdmin
 	set activate_reg_src=InstallDir
 	set activate_reg_key=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\12.0
 	set activate_reg_key_64=HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\12.0
-	
+
 	goto :EOF
 
 :version2015
@@ -155,7 +155,7 @@ goto :BatchGotAdmin
 	REM set help_default_path=
 	set install_help_reg_key=
 	set install_help_reg_key_64=
-	
+
 	:: ACTIVATE
 	set _ACTIVATE=1
 	set activate_key=HM6NR-QXX7C-DFW2Y-8B82K-WTYJV 07060
@@ -186,6 +186,9 @@ goto :BatchGotAdmin
 	set _INSTALL_CERTIFICATE=1
 	set install_cert_folder=%~dp0\vst_setup\certificates
 	set install_cert_exe="%~dp0\certmgr%_OSarch%.exe"
+	rem set install_certs="manifestSignCertificates.p12;Microsoft Code Signing PCA 2011;LocalMachine CA|manifestSignCertificates.p12;Microsoft Root Certificate Authority;LocalMachine root|manifestCounterSignCertificates.p12;Microsoft Time-Stamp PCA 2010;LocalMachine CA|manifestCounterSignCertificates.p12;Microsoft Root Certificate Authority;LocalMachine root|vs_installer_opc.SignCertificates.p12;Microsoft Code Signing PCA;LocalMachine CA|vs_installer_opc.SignCertificates.p12;Microsoft Root Certificate Authority;LocalMachine root"
+	rem For Visual Studio 2017 version 15.8 Preview 2 or later:
+	set install_certs="manifestRootCertificate.cer;Microsoft Root Certificate Authority 2011;LocalMachine root|manifestCounterSignRootCertificate.cer;Microsoft Root Certificate Authority 2010;LocalMachine root|vs_installer_opc.RootCertificate.cer;Microsoft Root Certificate Authority;LocalMachine root"
 
 	:: INSTALL SETUP
 	set _INSTALL_SETUP=1
@@ -357,16 +360,23 @@ goto :BatchGotAdmin
 		goto :main_menu
 	)
 
+:certloop
+	for /f "tokens=1* delims=|" %%C in (%temp_install_certs%) do (
+	    set temp_install_certs="%%D"
+	    for /f "tokens=1,2,3 delims=;" %%J in ("%%C") do (
+	    	call %install_cert_exe% -add "%install_cert_folder%\%%J" -n "%%K" -s -r %%L
+	    	rem echo "%%J %%K %%L"
+	    )
+	    if NOT %temp_install_certs%=="" goto :certloop
+	)
+	goto :EOF
+
 :install_certificate
 	if defined install_cert_folder (
 		if exist "%install_cert_folder%" (
 			if exist %install_cert_exe% (
-				call %install_cert_exe% -add -c "%install_cert_folder%\manifestSignCertificates.p12" -n "Microsoft Code Signing PCA 2011" -s -r LocalMachine CA
-				call %install_cert_exe% -add -c "%install_cert_folder%\manifestSignCertificates.p12" -n "Microsoft Root Certificate Authority" -s -r LocalMachine root
-				call %install_cert_exe% -add -c "%install_cert_folder%\manifestCounterSignCertificates.p12" -n "Microsoft Time-Stamp PCA 2010" -s -r LocalMachine CA
-				call %install_cert_exe% -add -c "%install_cert_folder%\manifestCounterSignCertificates.p12" -n "Microsoft Root Certificate Authority" -s -r LocalMachine root
-				call %install_cert_exe% -add -c "%install_cert_folder%\vs_installer_opc.SignCertificates.p12" -n "Microsoft Code Signing PCA" -s -r LocalMachine CA
-				call %install_cert_exe% -add -c "%install_cert_folder%\vs_installer_opc.SignCertificates.p12" -n "Microsoft Root Certificate Authority" -s -r LocalMachine root
+				set temp_install_certs=%install_certs%
+				call :certloop
 			)
 		)
 	)
@@ -428,6 +438,6 @@ goto :BatchGotAdmin
 	)
 	echo.
 	goto :back_menu
-	
+
 :god_exit
 	exit /B
