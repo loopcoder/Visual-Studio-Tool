@@ -3,7 +3,7 @@ Visual Studio offline installer downloader and other stuff.
 
 
 ## Select Visual Studio version
-Open editor with vs_installer.bat file and change the **_VERSION** variable, for example: 
+Open editor with ``vs_installer.bat`` file and change the **_VERSION** variable, for example: 
 
 for 2017 installer (default): `SET _VERSION=2017`
 
@@ -15,6 +15,8 @@ for 2012 installer: `SET _VERSION=2012`
 
 
 ## Change Custom Settings
+Open editor with ``vs_installer.bat`` file and change your settings.
+
 ![VST](https://raw.githubusercontent.com/loopcoder/Visual-Studio-Tool/master/screenshot1.jpg)
 
 
