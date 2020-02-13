@@ -5,6 +5,8 @@ Visual Studio offline installer downloader and other stuff.
 ## Select Visual Studio version
 Open editor with ``vs_installer.bat`` file and change the **_VERSION** variable, for example: 
 
+for 2019 installer: `SET _VERSION=2019`
+
 for 2017 installer (default): `SET _VERSION=2017`
 
 for 2015 installer: `SET _VERSION=2015`
