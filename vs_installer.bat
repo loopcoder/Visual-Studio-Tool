@@ -44,6 +44,7 @@ goto :BatchGotAdmin
 	set install_language_setup_arg=
 
 	:: INSTALL HELP
+	::Microsoft.HelpViewer install
 	set _INSTALL_HELP=1
 	set install_help_folder="%~dp0\vst_help"
 	REM set help_default_path="%ProgramData%\Microsoft\HelpLibrary2\Catalogs\VisualStudio11"
@@ -61,7 +62,7 @@ goto :BatchGotAdmin
 	goto :EOF
 
 :version2013
-	::en_visual_studio_ultimate_2013_with_update_5_x86_web_installer_6815915
+	::en_visual_studio_ultimate_2013_with_update_5_x86_web_installer_6815915.exe
 
 	:: DOWNLOAD SETUP
 	set _DOWNLOAD_SETUP=1
@@ -73,13 +74,18 @@ goto :BatchGotAdmin
 
 	:: DOWNLOAD UPDATE
 	set _DOWNLOAD_UPDATE=0
-	set download_update_exe=
+	set download_update_exe=""
 	set download_update_arg=
 
 	:: CERTIFICATE
 	set _INSTALL_CERTIFICATE=0
 	set install_cert_folder=
 	set install_cert_exe=
+
+	:: CERTUTIL
+	set _INSTALL_CERTUTIL=0
+	set install_certutils_folder=
+	set install_certutils=""
 
 	:: INSTALL SETUP
 	set _INSTALL_SETUP=1
@@ -93,15 +99,16 @@ goto :BatchGotAdmin
 
 	:: INSTALL LANGUAGE
 	set _INSTALL_LANGUAGE=0
-	set install_language_setup_exe=
+	set install_language_setup_exe=""
 	set install_language_setup_arg=
 
 	:: INSTALL HELP
+	::Microsoft.HelpViewer install
 	set _INSTALL_HELP=0
-	set install_help_folder=
-	REM set help_default_path=
-	set install_help_reg_key=
-	set install_help_reg_key_64=
+	set install_help_folder=""
+	REM set help_default_path=""
+	set install_help_reg_key=""
+	set install_help_reg_key_64=""
 
 	:: ACTIVATE
 	set _ACTIVATE=1
@@ -114,7 +121,7 @@ goto :BatchGotAdmin
 	goto :EOF
 
 :version2015
-	::en_visual_studio_enterprise_2015_with_update_3_x86_x64_web_installer_8922986
+	::en_visual_studio_enterprise_2015_with_update_3_x86_x64_web_installer_8922986.exe
 
 	:: DOWNLOAD SETUP
 	set _DOWNLOAD_SETUP=1
@@ -126,13 +133,18 @@ goto :BatchGotAdmin
 
 	:: DOWNLOAD UPDATE
 	set _DOWNLOAD_UPDATE=0
-	set download_update_exe=
+	set download_update_exe=""
 	set download_update_arg=
 
 	:: CERTIFICATE
 	set _INSTALL_CERTIFICATE=0
 	set install_cert_folder=
 	set install_cert_exe=
+	
+	:: CERTUTIL
+	set _INSTALL_CERTUTIL=0
+	set install_certutils_folder=
+	set install_certutils=""
 
 	:: INSTALL SETUP
 	set _INSTALL_SETUP=1
@@ -146,15 +158,16 @@ goto :BatchGotAdmin
 
 	:: INSTALL LANGUAGE
 	set _INSTALL_LANGUAGE=0
-	set install_language_setup_exe=
+	set install_language_setup_exe=""
 	set install_language_setup_arg=
 
 	:: INSTALL HELP
+	::Microsoft.HelpViewer install
 	set _INSTALL_HELP=0
-	set install_help_folder=
-	REM set help_default_path=
-	set install_help_reg_key=
-	set install_help_reg_key_64=
+	set install_help_folder=""
+	REM set help_default_path=""
+	set install_help_reg_key=""
+	set install_help_reg_key_64=""
 
 	:: ACTIVATE
 	set _ACTIVATE=1
@@ -167,6 +180,7 @@ goto :BatchGotAdmin
 	goto :EOF
 
 :version2017
+	::mu_visual_studio_enterprise_2017_version_15.3_x86_x64_11100063.exe
 	::--locale tr-TR ::--verify
 
 	:: DOWNLOAD SETUP
@@ -179,16 +193,21 @@ goto :BatchGotAdmin
 
 	:: DOWNLOAD UPDATE
 	set _DOWNLOAD_UPDATE=0
-	set download_update_exe=
+	set download_update_exe=""
 	set download_update_arg=
 
 	:: CERTIFICATE
-	set _INSTALL_CERTIFICATE=1
+	set _INSTALL_CERTIFICATE=0
 	set install_cert_folder=%~dp0\vst_setup\certificates
 	set install_cert_exe="%~dp0\certmgr%_OSarch%.exe"
 	rem set install_certs="manifestSignCertificates.p12;Microsoft Code Signing PCA 2011;LocalMachine CA|manifestSignCertificates.p12;Microsoft Root Certificate Authority;LocalMachine root|manifestCounterSignCertificates.p12;Microsoft Time-Stamp PCA 2010;LocalMachine CA|manifestCounterSignCertificates.p12;Microsoft Root Certificate Authority;LocalMachine root|vs_installer_opc.SignCertificates.p12;Microsoft Code Signing PCA;LocalMachine CA|vs_installer_opc.SignCertificates.p12;Microsoft Root Certificate Authority;LocalMachine root"
 	rem For Visual Studio 2017 version 15.8 Preview 2 or later:
 	set install_certs="manifestRootCertificate.cer;Microsoft Root Certificate Authority 2011;LocalMachine root|manifestCounterSignRootCertificate.cer;Microsoft Root Certificate Authority 2010;LocalMachine root|vs_installer_opc.RootCertificate.cer;Microsoft Root Certificate Authority;LocalMachine root"
+
+	:: CERTUTIL
+	set _INSTALL_CERTUTIL=1
+	set install_certutils_folder=%~dp0\vst_setup\certificates
+	set install_certutils="manifestRootCertificate.cer|manifestCounterSignRootCertificate.cer|vs_installer_opc.RootCertificate.cer"
 
 	:: INSTALL SETUP
 	set _INSTALL_SETUP=1
@@ -202,10 +221,11 @@ goto :BatchGotAdmin
 
 	:: INSTALL LANGUAGE
 	set _INSTALL_LANGUAGE=0
-	set install_language_setup_exe=
+	set install_language_setup_exe=""
 	set install_language_setup_arg=
 
 	:: INSTALL HELP
+	::Microsoft.HelpViewer install
 	set _INSTALL_HELP=1
 	set install_help_folder="%~dp0\vst_help"
 	REM set help_default_path="%ProgramData%\Microsoft\HelpLibrary2\Catalogs\VisualStudio15"
@@ -221,11 +241,74 @@ goto :BatchGotAdmin
 	set activate_reg_key_64=HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\SxS\VS7
 
 	goto :EOF
+	
+:version2019
+	::mu_visual_studio_enterprise_2019_x86_x64.exe
+	::--locale tr-TR ::--verify
+
+	:: DOWNLOAD SETUP
+	set _DOWNLOAD_SETUP=1
+	set download_setup_exe="%~dp0\vs_enterprise.exe"
+	set download_setup_arg=--layout "%~dp0\vst_setup" --wait --norestart --all --lang en-US tr-TR
+	set download_setup_recommended_arg=--includeOptional --includeRecommended
+	set download_setup_optional_arg=
+	set download_fix_arg=%download_setup_arg% %download_setup_recommended_arg% %download_setup_optional_arg% --fix
+
+	:: DOWNLOAD UPDATE
+	set _DOWNLOAD_UPDATE=0
+	set download_update_exe=""
+	set download_update_arg=
+
+	:: CERTIFICATE
+	set _INSTALL_CERTIFICATE=0
+	set install_cert_folder=
+	set install_cert_exe=
+	rem set install_certs=
+	rem For Visual Studio 2017 version 15.8 Preview 2 or later:
+	set install_certs=
+
+	:: CERTUTIL
+	set _INSTALL_CERTUTIL=1
+	set install_certutils_folder=%~dp0\vst_setup\certificates
+	set install_certutils="manifestRootCertificate.cer|manifestCounterSignRootCertificate.cer|vs_installer_opc.RootCertificate.cer"
+
+	:: INSTALL SETUP
+	set _INSTALL_SETUP=1
+	set install_setup_exe="%~dp0\vst_setup\vs_setup.exe"
+	set install_setup_arg=--wait --norestart --noWeb --productKey BF8Y8-GN2QH-T84XB-QVY3B-RC4DF
+
+	:: INSTALL UPDATE
+	set _INSTALL_UPDATE=0
+	set install_update_exe=
+	set install_update_arg=
+
+	:: INSTALL LANGUAGE
+	set _INSTALL_LANGUAGE=0
+	set install_language_setup_exe=""
+	set install_language_setup_arg=
+
+	:: INSTALL HELP
+	::Microsoft.HelpViewer install
+	set _INSTALL_HELP=0
+	set install_help_folder=""
+	REM set help_default_path=""
+	set install_help_reg_key=""
+	set install_help_reg_key_64=""
+
+	:: ACTIVATE
+	set _ACTIVATE=0
+	set activate_key=BF8Y8-GN2QH-T84XB-QVY3B-RC4DF 09260
+	set activate_subdir=Common7\IDE
+	set activate_reg_src=16.0
+	set activate_reg_key=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\SxS\VS7
+	set activate_reg_key_64=HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\SxS\VS7
+
+	goto :EOF
 
 :--------------------------------------
 
 :start
-	if %_VERSION% NEQ 2012 if %_VERSION% NEQ 2013 if %_VERSION% NEQ 2015 if %_VERSION% NEQ 2017 goto :god_exit
+	if %_VERSION% NEQ 2012 if %_VERSION% NEQ 2013 if %_VERSION% NEQ 2015 if %_VERSION% NEQ 2017 if %_VERSION% NEQ 2019 goto :god_exit
 	call :version%_VERSION%
 
 	set "isR=Recommended "
@@ -260,7 +343,7 @@ goto :BatchGotAdmin
 	CD /D "%~dp0"
 	:: -------------- set global variable --------------
 	setlocal EnableDelayedExpansion
-	title Visual Studio Tool
+	title Visual Studio Tool (%_VERSION%)
 	mode con: cols=60 lines=15
 
 	set /A _menuCount=0
@@ -287,6 +370,7 @@ goto :BatchGotAdmin
 	if defined download_fix_arg if not defined _menu3 call :listmenu _menu3
 	if "%_DOWNLOAD_UPDATE%" EQU "1" if not defined _menu4 call :listmenu _menu4
 	if "%_INSTALL_CERTIFICATE%" EQU "1" if not defined _menu5 call :listmenu _menu5
+	if "%_INSTALL_CERTUTIL%" EQU "1" if not defined _menu11 call :listmenu _menu11
 	if "%_INSTALL_SETUP%" EQU "1" if not defined _menu6 call :listmenu _menu6
 	if "%_INSTALL_UPDATE%" EQU "1" if not defined _menu7 call :listmenu _menu7
 	if "%_INSTALL_LANGUAGE%" EQU "1" if not defined _menu8 call :listmenu _menu8
@@ -298,10 +382,11 @@ goto :BatchGotAdmin
 	if defined download_fix_arg echo [%_menu3%] Download Verify/Fix downloaded Visual studio?
 	if "%_DOWNLOAD_UPDATE%" EQU "1" echo [%_menu4%] Download offline visual studio update?
 	if "%_INSTALL_CERTIFICATE%" EQU "1" echo [%_menu5%] Setup need offline certificates?
+	if "%_INSTALL_CERTUTIL%" EQU "1" echo [%_menu11%] Setup need offline certificates?
 	if "%_INSTALL_SETUP%" EQU "1" echo [%_menu6%] Setup offline Visual studio?
 	if "%_INSTALL_UPDATE%" EQU "1" echo [%_menu7%] Setup offline visual studio update?
 	if "%_INSTALL_LANGUAGE%" EQU "1" echo [%_menu8%] Setup offline visual studio language?
-	if "%_INSTALL_HELP%" EQU "1" echo [%_menu9%] Setup offline visual studio help?
+	if "%_INSTALL_HELP%" EQU "1" echo [%_menu9%] Setup offline visual studio help (HelpViewer Install)?
 	if "%_ACTIVATE%" EQU "1" echo [%_menu10%] Activate visual studio?
 
 	echo [0] Exit?
@@ -314,6 +399,7 @@ goto :BatchGotAdmin
 	if defined _menu3 if /I "%c%" EQU "%_menu3%" goto :download_fix
 	if defined _menu4 if /I "%c%" EQU "%_menu4%" goto :download_update
 	if defined _menu5 if /I "%c%" EQU "%_menu5%" goto :install_certificate
+	if defined _menu11 if /I "%c%" EQU "%_menu11%" goto :install_certutil
 	if defined _menu6 if /I "%c%" EQU "%_menu6%" goto :install_setup
 	if defined _menu7 if /I "%c%" EQU "%_menu7%" goto :install_update
 	if defined _menu8 if /I "%c%" EQU "%_menu8%" goto :install_language
@@ -364,13 +450,12 @@ goto :BatchGotAdmin
 	for /f "tokens=1* delims=|" %%C in (%temp_install_certs%) do (
 	    set temp_install_certs="%%D"
 	    for /f "tokens=1,2,3 delims=;" %%J in ("%%C") do (
-	    	call %install_cert_exe% -add "%install_cert_folder%\%%J" -n "%%K" -s -r %%L
+	    	if exist "%install_cert_folder%\%%J" call %install_cert_exe% -add "%install_cert_folder%\%%J" -n "%%K" -s -r %%L
 	    	rem echo "%%J %%K %%L"
 	    )
 	    if NOT %temp_install_certs%=="" goto :certloop
 	)
 	goto :EOF
-
 :install_certificate
 	if defined install_cert_folder (
 		if exist "%install_cert_folder%" (
@@ -378,6 +463,23 @@ goto :BatchGotAdmin
 				set temp_install_certs=%install_certs%
 				call :certloop
 			)
+		)
+	)
+	goto :back_menu
+
+
+:certutilloop
+	for /f "tokens=1* delims=|" %%C in (%temp_install_certutils%) do (
+	    set temp_install_certutils="%%D"
+		if exist "%install_certutils_folder%\%%C" call certutil.exe -addstore -f "Root" "%install_certutils_folder%\%%C"
+	    if NOT %temp_install_certutils%=="" goto :certutilloop
+	)
+	goto :EOF
+:install_certutil
+	if defined install_certutils_folder (
+		if exist "%install_certutils_folder%" (
+			set temp_install_certutils=%install_certutils%
+			call :certutilloop
 		)
 	)
 	goto :back_menu
