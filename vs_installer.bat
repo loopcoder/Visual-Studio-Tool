@@ -24,8 +24,13 @@ goto :BatchGotAdmin
 
 	:: CERTIFICATE
 	set _INSTALL_CERTIFICATE=0
-	set install_cert_folder=
-	set install_cert_exe=
+	set "install_cert_folder="
+	set install_cert_exe=""
+
+	:: CERTUTIL
+	set _INSTALL_CERTUTIL=0
+	set "install_certutils_folder="
+	set install_certutils=""
 
 	:: INSTALL SETUP
 	set _INSTALL_SETUP=1
@@ -77,12 +82,12 @@ goto :BatchGotAdmin
 
 	:: CERTIFICATE
 	set _INSTALL_CERTIFICATE=0
-	set install_cert_folder=
-	set install_cert_exe=
+	set "install_cert_folder="
+	set install_cert_exe=""
 
 	:: CERTUTIL
 	set _INSTALL_CERTUTIL=0
-	set install_certutils_folder=
+	set "install_certutils_folder="
 	set install_certutils=""
 
 	:: INSTALL SETUP
@@ -134,12 +139,12 @@ goto :BatchGotAdmin
 
 	:: CERTIFICATE
 	set _INSTALL_CERTIFICATE=0
-	set install_cert_folder=
-	set install_cert_exe=
-	
+	set "install_cert_folder="
+	set install_cert_exe=""
+
 	:: CERTUTIL
 	set _INSTALL_CERTUTIL=0
-	set install_certutils_folder=
+	set "install_certutils_folder="
 	set install_certutils=""
 
 	:: INSTALL SETUP
@@ -192,7 +197,7 @@ goto :BatchGotAdmin
 
 	:: CERTIFICATE
 	set _INSTALL_CERTIFICATE=0
-	set install_cert_folder=%~dp0\vst_setup\certificates
+	set "install_cert_folder=%~dp0\vst_setup\certificates"
 	set install_cert_exe="%~dp0\certmgr%_OSarch%.exe"
 	rem set install_certs="manifestSignCertificates.p12;Microsoft Code Signing PCA 2011;LocalMachine CA|manifestSignCertificates.p12;Microsoft Root Certificate Authority;LocalMachine root|manifestCounterSignCertificates.p12;Microsoft Time-Stamp PCA 2010;LocalMachine CA|manifestCounterSignCertificates.p12;Microsoft Root Certificate Authority;LocalMachine root|vs_installer_opc.SignCertificates.p12;Microsoft Code Signing PCA;LocalMachine CA|vs_installer_opc.SignCertificates.p12;Microsoft Root Certificate Authority;LocalMachine root"
 	rem For Visual Studio 2017 version 15.8 Preview 2 or later:
@@ -200,7 +205,7 @@ goto :BatchGotAdmin
 
 	:: CERTUTIL
 	set _INSTALL_CERTUTIL=1
-	set install_certutils_folder=%~dp0\vst_setup\certificates
+	set "install_certutils_folder=%~dp0\vst_setup\certificates"
 	set install_certutils="manifestRootCertificate.cer|manifestCounterSignRootCertificate.cer|vs_installer_opc.RootCertificate.cer"
 
 	:: INSTALL SETUP
@@ -253,15 +258,15 @@ goto :BatchGotAdmin
 
 	:: CERTIFICATE
 	set _INSTALL_CERTIFICATE=0
-	set install_cert_folder=
-	set install_cert_exe=
+	set "install_cert_folder="
+	set install_cert_exe=""
 	rem set install_certs=
 	rem For Visual Studio 2017 version 15.8 Preview 2 or later:
-	set install_certs=
+	set install_certs=""
 
 	:: CERTUTIL
 	set _INSTALL_CERTUTIL=1
-	set install_certutils_folder=%~dp0\vst_setup\certificates
+	set "install_certutils_folder=%~dp0\vst_setup\certificates"
 	set install_certutils="manifestRootCertificate.cer|manifestCounterSignRootCertificate.cer|vs_installer_opc.RootCertificate.cer"
 
 	:: INSTALL SETUP
