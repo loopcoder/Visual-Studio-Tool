@@ -54,10 +54,8 @@ goto :BatchGotAdmin
 	:: ACTIVATE
 	set _ACTIVATE=0
 	set activate_key=RBCXF-CVBGR-382MK-DFHJ4-C69G8
-	set activate_subdir=
-	set activate_reg_src=InstallDir
-	set activate_reg_key=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\11.0
-	set activate_reg_key_64=HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\11.0
+	set activate_storepid="%ProgramFiles%\Microsoft Visual Studio 11.0\Common7\IDE\StorePID.exe"
+	set activate_storepid_64="%ProgramFiles(x86)%\Microsoft Visual Studio 11.0\Common7\IDE\StorePID.exe"
 
 	goto :EOF
 
@@ -111,12 +109,10 @@ goto :BatchGotAdmin
 	set install_help_reg_key_64=""
 
 	:: ACTIVATE
-	set _ACTIVATE=1
+	set _ACTIVATE=0
 	set activate_key=87DQC-G8CYR-CRPJ4-QX9K8-RFV2B 06181
-	set activate_subdir=
-	set activate_reg_src=InstallDir
-	set activate_reg_key=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\12.0
-	set activate_reg_key_64=HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\12.0
+	set activate_storepid="%ProgramFiles%\Microsoft Visual Studio 12.0\Common7\IDE\StorePID.exe"
+	set activate_storepid_64="%ProgramFiles(x86)%\Microsoft Visual Studio 12.0\Common7\IDE\StorePID.exe"
 
 	goto :EOF
 
@@ -172,10 +168,8 @@ goto :BatchGotAdmin
 	:: ACTIVATE
 	set _ACTIVATE=1
 	set activate_key=HM6NR-QXX7C-DFW2Y-8B82K-WTYJV 07060
-	set activate_subdir=
-	set activate_reg_src=InstallDir
-	set activate_reg_key=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0
-	set activate_reg_key_64=HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0
+	set activate_storepid="%ProgramFiles%\Microsoft Visual Studio 14.0\Common7\IDE\StorePID.exe"
+	set activate_storepid_64="%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\Common7\IDE\StorePID.exe"
 
 	goto :EOF
 
@@ -235,10 +229,8 @@ goto :BatchGotAdmin
 	:: ACTIVATE
 	set _ACTIVATE=1
 	set activate_key=NJVYC-BMHX2-G77MM-4XJMR-6Q8QF 08860
-	set activate_subdir=Common7\IDE
-	set activate_reg_src=15.0
-	set activate_reg_key=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\SxS\VS7
-	set activate_reg_key_64=HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\SxS\VS7
+	set activate_storepid="%ProgramFiles%\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\StorePID.exe"
+	set activate_storepid_64="%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\StorePID.exe"
 
 	goto :EOF
 	
@@ -296,12 +288,10 @@ goto :BatchGotAdmin
 	set install_help_reg_key_64=""
 
 	:: ACTIVATE
-	set _ACTIVATE=0
+	set _ACTIVATE=1
 	set activate_key=BF8Y8-GN2QH-T84XB-QVY3B-RC4DF 09260
-	set activate_subdir=Common7\IDE
-	set activate_reg_src=16.0
-	set activate_reg_key=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\SxS\VS7
-	set activate_reg_key_64=HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\SxS\VS7
+	set activate_storepid="%ProgramFiles%\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\StorePID.exe"
+	set activate_storepid_64="%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\StorePID.exe"
 
 	goto :EOF
 
@@ -386,7 +376,7 @@ goto :BatchGotAdmin
 	if "%_INSTALL_SETUP%" EQU "1" echo [%_menu6%] Setup offline Visual studio?
 	if "%_INSTALL_UPDATE%" EQU "1" echo [%_menu7%] Setup offline visual studio update?
 	if "%_INSTALL_LANGUAGE%" EQU "1" echo [%_menu8%] Setup offline visual studio language?
-	if "%_INSTALL_HELP%" EQU "1" echo [%_menu9%] Setup offline visual studio help (HelpViewer Install)?
+	if "%_INSTALL_HELP%" EQU "1" echo [%_menu9%] Setup offline visual studio help (HelpViewer need)?
 	if "%_ACTIVATE%" EQU "1" echo [%_menu10%] Activate visual studio?
 
 	echo [0] Exit?
@@ -412,6 +402,7 @@ goto :BatchGotAdmin
 	set "%1=%_menuCount%"
 	goto :EOF
 :back_menu
+	echo.
 	pause
 	goto :main_menu
 
@@ -521,16 +512,14 @@ goto :BatchGotAdmin
 	)
 
 :activate
-	set "regKey="
-	if "%_OSarch%" EQU "64" (
-		set "regKey=%activate_reg_key_64%"
-	) else (
-		set "regKey=%activate_reg_key%"
-	)
 	set "_VS="
-	for /f "skip=2 tokens=2*" %%G in ('"reg query %regKey% /v %activate_reg_src%" 2^>NUL') do set "_VS=%%H%activate_subdir%"
-	if exist "%_VS%\StorePID.exe" (
-		start "" /b "%_VS%\StorePID.exe" %activate_key% && (
+	if "%_OSarch%" EQU "64" (
+		set _VS=%activate_storepid_64%
+	) else (
+		set _VS=%activate_storepid%
+	)
+	if exist %_VS% (
+		start "" /b %_VS% %activate_key% && (
 		  echo Visual Studio activated successfully.
 		) || (
 		  echo Visual Studio activation failed.
@@ -538,7 +527,6 @@ goto :BatchGotAdmin
 	) else (
 		echo Visual Studio not installed.
 	)
-	echo.
 	goto :back_menu
 
 :god_exit
